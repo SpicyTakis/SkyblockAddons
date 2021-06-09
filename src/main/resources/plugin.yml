@@ -1,0 +1,8 @@
+name: SkyblockAddons
+version: ${project.version}
+main: net.dukthosting.skyblockaddons.SkyblockAddons
+api-version: 1.16
+softdepend: [ multiverse-core ]
+authors: [ DuktHosting ]
+description: A simple paper plugin designed to make skyblock better.
+website: dukthosting.net

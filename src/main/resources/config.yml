@@ -1,0 +1,4 @@
+worlds:
+  - { name: "world", requirement: "none"}
+  - { name: "world_two", requirement: "combat>5"}
+  - { name: "world_three", requirement: "combat>12"}
