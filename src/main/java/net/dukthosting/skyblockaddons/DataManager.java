@@ -1,15 +1,11 @@
 package net.dukthosting.skyblockaddons;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 public class DataManager {
@@ -26,12 +22,12 @@ public class DataManager {
     public void createDataDirectory() {
         File saveDir = new File(pluginFolder + "/data/");
         try {
-            if (saveDir.createNewFile()) {
+            if (!saveDir.mkdir()) {
                 plugin.getLogger().info("Data directory already exists.");
             } else {
                 plugin.getLogger().info("Data directory doesn't exist, creating it.");
             }
-        } catch (IOException e) {
+        } catch (SecurityException e) {
             plugin.getLogger().severe("Error creating data directory.");
             plugin.getLogger().severe(e.toString());
         }
@@ -50,6 +46,8 @@ public class DataManager {
                 FileWriter writer = new FileWriter(saveFile);
                 currentSaveData.put("world", worldname);
                 writer.write(currentSaveData.toJSONString());
+                writer.flush();
+                writer.close();
                 result = true;
             } catch (IOException e) {
                 plugin.getLogger().severe("Error writing to player data file for " + uuid.toString() + ".");
@@ -71,28 +69,26 @@ public class DataManager {
         // lets create the save file
         File saveFile = new File(pluginFolder + "/data/" + uuid.toString() + ".json");
         try {
-            if (saveFile.createNewFile()) {
+            if (!saveFile.createNewFile()) {
                 plugin.getLogger().info("Player data file for " + uuid.toString() + " already exists, not changing it.");
                 return saveFile;
             } else {
                 plugin.getLogger().info("Player data file for " + uuid.toString() + " doesn't exist, creating it.");
+                try {
+                    FileWriter writer = new FileWriter(saveFile);
+                    JSONObject dataTemplate = new JSONObject();
+                    dataTemplate.put("world", "world");
+                    writer.write(dataTemplate.toJSONString());
+                    writer.flush();
+                    writer.close();
+                } catch (IOException e) {
+                    plugin.getLogger().severe("Error writing to player data file for " + uuid.toString() + ".");
+                    plugin.getLogger().severe(e.toString());
+                }
             }
         } catch (IOException e) {
             plugin.getLogger().severe("Error creating player data file for " + uuid.toString() + ".");
             plugin.getLogger().severe(e.toString());
-        }
-
-        // lets write the default config to the save file
-        if (!saveFile.exists()) {
-            try {
-                FileWriter writer = new FileWriter(saveFile);
-                JSONObject dataTemplate = new JSONObject();
-                dataTemplate.put("world", "world");
-                writer.write(dataTemplate.toJSONString());
-            } catch (IOException e) {
-                plugin.getLogger().severe("Error writing to player data file for " + uuid.toString() + ".");
-                plugin.getLogger().severe(e.toString());
-            }
         }
 
         return saveFile;
