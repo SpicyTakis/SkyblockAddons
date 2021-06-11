@@ -35,6 +35,8 @@ public final class SkyblockAddons extends JavaPlugin implements Listener {
 
         // create the plugins data directory, if it doesnt exist
         data.createDataDirectory();
+
+        createCustomConfig();
     }
 
     @Override

@@ -6,3 +6,11 @@ softdepend: [ multiverse-core ]
 authors: [ DuktHosting ]
 description: A simple paper plugin designed to make skyblock better.
 website: dukthosting.net
+commands:
+  addportal:
+    description: Adds portal to the portal config file
+    usage: /addportal <world> <gotox> <gotoy> <gotoz> <duration>
+permissions:
+  skyblockaddons.addportal:
+    description: Allows players to run the /addportal command
+
