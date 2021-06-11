@@ -19,6 +19,7 @@ public final class SkyblockAddons extends JavaPlugin implements Listener {
 
     FileConfiguration config;
     DataManager data = new DataManager(this);
+    CommandHandler commandHandler = new CommandHandler(this);
 
     JSONObject playerDeathMap = new JSONObject();
 

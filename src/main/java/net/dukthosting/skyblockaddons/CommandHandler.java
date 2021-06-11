@@ -8,9 +8,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandHandler implements CommandExecutor {
 
+    JavaPlugin plugin;
+
+    public CommandHandler(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
+        if (!sender instanceof Player) {
             Player player = (Player) sender;
         }
 
